@@ -32,11 +32,11 @@ def assignments(username):
 
 @app.route("/student-login", methods=["GET", "POST"])
 def student_login():
-    return render_template("login.html", href="url_for('student_register')")
+    return render_template("login.html", href="{{urlFor('student_register')}}")
 
 @app.route("/teacher-login", methods=["GET", "POST"])
 def teacher_login():
-    return render_template("login.html", href="url_for('teacher_register')")
+    return render_template("login.html", href="{{urlFor('teacher_register')}}")
 
 @app.route("/canteen-login", methods=["GET", "POST"])
 def canteen_login():
@@ -44,8 +44,8 @@ def canteen_login():
 
 @app.route("/student-register")
 def student_register():
-    render_template("register.html", section=True, subject=False)
+    return render_template("register.html", section=True, subject=False)
 
 @app.route("/teacher-register")
 def teacher_register():
-    render_template("register.html", section=False, subject=True, href="url_for('teacher_login')")
+    return render_template("register.html", section=False, subject=True)
