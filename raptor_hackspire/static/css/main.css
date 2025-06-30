@@ -1,0 +1,67 @@
+
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size:50px;
+    padding:10px;
+}
+
+body {
+    align-self: center;
+    font-family: Arial;
+}
+
+.red{
+    color: red;
+    border-color: black;
+}
+
+.green {
+    color: green;
+    border-color: black;
+}
+
+.yellow {
+    color: gold;
+    border-color: black;
+}
+
+table, h1 {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th {
+    font-size: 26px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+td {
+    font-size: 20px;
+    font-style: oblique;
+}
+
+th, td {
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
+}
+
+table, tr, td, th{
+    border-style: solid;
+    border-collapse: collapse;
+    border-width: 1px;
+}
+
+tr{
+    width: stretch;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
