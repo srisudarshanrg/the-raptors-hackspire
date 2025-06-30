@@ -1,0 +1,41 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assignments</title>
+    <link rel="stylesheet" type="text/css" href={{url_for('static', filename='css/main.css')}}>
+</head>
+<body>
+    <div style="background-color: #b30511; ">
+        <br /><br /><br />
+    </div>
+    <h1 align="center">Scheduled Assignments:</h1>
+            <table>
+            <tr>
+                <th>Assignment</th>
+                <th>Subject</th>
+                <th>Additional links(if any)</th>
+                <th>Deadline</th>
+            </tr>
+            {% for assignment in assignments %}
+            <tr>
+<!--assignments = assignment = [[Assignment name, Subject, Assignment link(if none, put an empty string), Deadline date]]-->
+                <td>{{assignment[0]}}</td>
+                <td>{{assignment[1]}}</td>
+                <td>
+                    {% if assignment[2] == "" %}
+                    -
+                    {% else %}
+                    <a href="{{assignment[2]}}">Link</a>
+                    {% endif %}
+
+                </td>
+                <td class="{{assignment[4]}}">{{assignment[3]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+</body>
+</html>
