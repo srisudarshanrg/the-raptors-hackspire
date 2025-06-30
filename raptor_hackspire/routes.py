@@ -44,7 +44,7 @@ def canteen_login():
 
 @app.route("/student-register")
 def student_register():
-    render_template("register.html", section=True, subject=False, href="url_for('student_login')")
+    render_template("register.html", section=True, subject=False)
 
 @app.route("/teacher-register")
 def teacher_register():
