@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/canteen_admin.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="canteen-admin-page">
+        <h1>Menu</h1>
+
+        {% if menu %}
+            {% for i in menu %}
+                <form method="post">
+                    <input type="hidden" name="menu_id" value="{{i.id}}">
+                    <input type="text" name="category" id="category" value="{{i.category}}">
+                    <input type="text" name="item_name" id="item_name" value="{{i.item_name}}">
+                    <input type="number" name="price" id="price" value="{{i.price}}">
+                    <label for="availability">Availability:</label>
+                    <input type="checkbox" name="availability" id="availability" value="{{i.availability}}" {% if i.availability %}checked{% endif %}>
+                    <br><br>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+
+                <hr>
+            {% endfor %}
+        {% else %}
+
+        {% endif %}
+    </div>
+{% endblock %}
