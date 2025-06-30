@@ -34,7 +34,7 @@ function StudentLoginPage() {
     return (
         <div>
             <br />
-            <form method="post" style={{width: "50%", marginLeft: "auto", marginRight: "auto", textAlign: "start"}}>
+            <form method="post" style={{width: "50%", marginLeft: "auto", marginRight: "auto", textAlign: "start"}} onSubmit={handleLogin}>
                 <h1 style={{"textAlign": "center"}}>Login</h1>
 
                 <label htmlFor="username" className="form-label">Username:</label>

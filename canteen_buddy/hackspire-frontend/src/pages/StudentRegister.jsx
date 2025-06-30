@@ -3,7 +3,7 @@ import { useOutletContext } from "react-router-dom";
 function StudentRegisterPage() {
     const {developmentBackendLink, productionBackendLink, login, setLogin, adminLogin, setAdminLogin, setAlert} = useOutletContext();
 
-    const registerSubmit = (event) => {
+    const handleRegister = (event) => {
         event.preventDefault()
 
         let username = event.target.username.value
@@ -42,7 +42,7 @@ function StudentRegisterPage() {
     return (
         <div>
             <br />
-            <form method="post" style={{width: "50%", marginLeft: "auto", marginRight: "auto", textAlign: "start"}} onSubmit={registerSubmit}>
+            <form method="post" style={{width: "50%", marginLeft: "auto", marginRight: "auto", textAlign: "start"}} onSubmit={handleRegister}>
                 <h1 style={{"textAlign": "center"}}>Register</h1>
 
                 <label htmlFor="username" className="form-label">Username:</label>

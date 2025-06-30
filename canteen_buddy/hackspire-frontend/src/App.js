@@ -4,7 +4,8 @@ import { Outlet } from 'react-router-dom';
 
 function App() {
   const [login, setLogin] = useState(false);
-  const [adminLogin, setAdminLogin] = useState(false);
+  const [canteenLogin, setCanteenLogin] = useState(false);
+  const [teacherLogin, setTeacherLogin] = useState(false);
   const [alert, setAlert] = useState(null);
   const developmentBackendLink = "http://localhost:3500"
   const productionBackendLink = ""
@@ -22,7 +23,7 @@ function App() {
     <div className="App">
       <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Canteen Buddy</a>
+          <a class="navbar-brand" href="#">The Raptors</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -34,15 +35,15 @@ function App() {
               {login && (
                 <>
                   <li class="nav-item">
-                    <a class="nav-link" href="/place-order">Place Order</a>
+                    <a class="nav-link" href="/canteen-buddy">Canteen Buddy</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="/menu">Menu</a>
+                    <a class="nav-link" href="/menu">Assignment Tracker</a>
                   </li>
                 </>
               )}
 
-              {adminLogin && (
+              {canteenLogin && (
                 <>
                   <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/view-orders">View Orders</a>
@@ -52,13 +53,24 @@ function App() {
                   </li>
                 </>
               )}
+
+              {teacherLogin && (
+                <>
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/teacher-logout">View Assignments</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/teacher-logout">Teacher Logout</a>
+                  </li>
+                </>
+              )}
               
             </ul>
           </div>
             
-          {!adminLogin && !login && (
+          {!canteenLogin && !login && !teacherLogin && (
             <div class="navbar-nav" id="navbarNav">
-              <ul class="navbar-nav">
+              <ul class="navbar-nav"> 
                 <li class="nav-item">
                   <a class="nav-link" aria-current="page" href="/student-login">Student Login</a>
                 </li>
@@ -66,17 +78,23 @@ function App() {
                   <a class="nav-link" aria-current="page" href="/student-register">Student Register</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="/admin-login">Admin Login</a>
+                  <a class="nav-link" aria-current="page" href="/canteen-login">Canteen Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="/teacher-login">Teacher Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="/teacher-login">Teacher Register</a>
                 </li>
               </ul>
             </div>
           )}
 
-          {adminLogin && (
+          {canteenLogin && (
             <div className="navbar-nav" id="navbarNav">
               <ul className="navbar-nav">
                 <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="/admin-logout">Admin Logout</a>
+                  <a class="nav-link" aria-current="page" href="/canteen-logout">Canteen Logout</a>
                 </li>
               </ul>
             </div>
@@ -90,8 +108,7 @@ function App() {
                 </li>
               </ul>
             </div>
-          )}
-          
+          )}          
         </div>
       </nav>
 
@@ -103,8 +120,10 @@ function App() {
           productionBackendLink,
           login,
           setLogin,
-          adminLogin,
-          setAdminLogin,
+          canteenLogin,
+          setCanteenLogin,
+          teacherLogin,
+          setTeacherLogin,
           alert,
           setAlert,
         }}

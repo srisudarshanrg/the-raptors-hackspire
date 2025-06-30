@@ -6,12 +6,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import StudentLoginPage from './pages/StudentLogin';
 import StudentRegisterPage from './pages/StudentRegister';
 import StudentLogoutPage from './pages/StudentLogout';
-import PlaceOrderPage from './pages/PlaceOrder';
-import MenuPage from './pages/Menu';
 import AdminLoginPage from './pages/AdminLogin';
 import AdminLogoutPage from './pages/AdminLogout';
 import ViewOrdersPage from './pages/ViewOrders';
 import UpdateMenuPage from './pages/UpdateMenu';
+import CanteenStudent from './pages/CanteenStudent';
 
 const router = createBrowserRouter([
   {
@@ -22,12 +21,11 @@ const router = createBrowserRouter([
       {path: "/student-login", element: <StudentLoginPage />},
       {path: "/student-register", element: <StudentRegisterPage />},
       {path: "/student-logout", element: <StudentLogoutPage />},
-      {path: "/place-order", element: <PlaceOrderPage />},
-      {path: "/menu", element: <MenuPage />},
+      {path: "/canteen/student", element: <CanteenStudent />},
       {path: "/admin-login", element: <AdminLoginPage />},
       {path: "/admin-logout", element: <AdminLogoutPage />},
-      {path: "/view-orders", element: <ViewOrdersPage />},
-      {path: "/update-menu", element: <UpdateMenuPage />},
+      {path: "/canteen/admin/view-orders", element: <ViewOrdersPage />},
+      {path: "/canteen/admin/update-menu", element: <UpdateMenuPage />},
     ]
   }
 ])

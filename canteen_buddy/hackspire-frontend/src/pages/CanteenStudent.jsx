@@ -1,4 +1,4 @@
-function PlaceOrderPage() {
+function CanteenStudent() {
     return (
         <div>
             <h1>PlaceOrder Page</h1>
@@ -6,4 +6,4 @@ function PlaceOrderPage() {
     )
 }
 
-export default PlaceOrderPage
+export default CanteenStudent
