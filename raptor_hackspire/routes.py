@@ -14,7 +14,7 @@ def home():
 @app.route('/Assignments')
 @login_required
 @roles_required("student", "teacher")
-def assignments(    ):
+def assignments():
     """
     format for assignment array(passed to "render_template"):
     array = [assignment, assignment, assignment], where:
