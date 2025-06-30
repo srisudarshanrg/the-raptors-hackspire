@@ -1,12 +1,12 @@
 {% extends 'auth_layout.html' %}
 
 {% block title %}
-    Login
+    {{title}}
 {% endblock %}
 
 {% block content %}
     <form method="post">
-        <h1>Login</h1>
+        <h1>{{title}}</h1>
         <input type="hidden" name="loginForm">
         <div class="input-group">
             <div class="input-group-text"><i class="fa-solid fa-user"></i></div>
