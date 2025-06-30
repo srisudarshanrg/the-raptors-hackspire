@@ -7,7 +7,7 @@ from .functions import roles_required
 @app.route('/<role>/<username>/Assignments')
 @login_required
 @roles_required("student", "teacher")
-def assignments(username):
+def assignments(role, username):
     """
     format for assignment array(passed to "render_template"):
     array = [assignment, assignment, assignment], where:
@@ -18,7 +18,7 @@ def assignments(username):
 
     current_date = datetime.now().date()
     for num in range(len(assignments)):
-        given_date = assignments[num][2].split("/")
+        given_date = assignments[num][3].split("/")
         date = dt(day = int(given_date[0]), month = int(given_date[1]), year = int(given_date[2]))
 
         if date < current_date:
@@ -27,8 +27,10 @@ def assignments(username):
             assignments[num].append("yellow")
         else:
             assignments[num].append("red")
-
-    return render_template('StudentAssignmentPage.html', empty = "", assignments = assignments)
+    if role == "Student":
+        return render_template('StudentAssignmentPage.html', assignments = assignments)
+    elif role == "Teacher":
+        return render_template('TeacherAssignmentPage.html', assignments = assignments)
 
 @app.route("/student-login", methods=["GET", "POST"])
 def student_login():
@@ -42,7 +44,7 @@ def teacher_login():
 def canteen_login():
     return render_template("login.html")
 
-@app.route("/student-register")
+@app.route("/student-register", methods=["GET", "POST"])
 def student_register():
     return render_template("register.html", section=True, subject=False)
 
