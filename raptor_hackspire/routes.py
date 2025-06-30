@@ -62,8 +62,8 @@ def canteen_admin():
             m.category = category
             m.item_name = item_name
             m.price = price
-            m.availability = availability
-            db.session.commit
+            m.availability = bool(availability)
+            db.session.commit()
 
     return render_template("canteen_admin.html", role=current_user.get_role(), menu=menu)
 
