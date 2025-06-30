@@ -1,0 +1,6 @@
+create_table("orders") {
+    t.Column("id", "integer", {primary: true})
+    t.Column("student_id", "integer")
+    t.Column("menu_id", "integer")
+    t.Column("section", "string")
+}

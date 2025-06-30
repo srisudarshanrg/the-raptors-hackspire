@@ -1,0 +1,3 @@
+drop_foreign_key("orders", "orders_student_id_fk")
+drop_foreign_key("orders", "orders_menu_id_fk")
+drop_foreign_key("orders", "orders_section_fk")

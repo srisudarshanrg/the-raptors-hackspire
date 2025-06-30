@@ -1,0 +1,2 @@
+drop_table("students")
+drop_index("students", "students_username_idx")
