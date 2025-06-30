@@ -1,5 +1,5 @@
 from . import app, session
-from flask_login import login_required, login_user
+from flask_login import login_required, login_user, current_user
 from flask import render_template, redirect, url_for, request, flash
 from datetime import datetime, date as dt
 from .functions import roles_required, hash_password, check_hash_password, CreateStudent, LoginStudent
@@ -8,7 +8,7 @@ from .user_validations import password_equal_confirm_password, unique_username
 @app.route("/")
 @login_required
 def home():
-    return render_template("home.html")
+    return render_template("home.html", role=current_user.get_role)
 
 @app.route('/<role>/<username>/Assignments')
 @login_required
