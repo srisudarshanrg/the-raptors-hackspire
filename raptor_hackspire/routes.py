@@ -1,6 +1,6 @@
 from . import app
 from flask_login import login_required
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from datetime import datetime, date as dt
 from .functions import roles_required
 
@@ -32,20 +32,20 @@ def assignments(username):
 
 @app.route("/student-login", methods=["GET", "POST"])
 def student_login():
-    return render_template("login.html", href="{{urlFor('student_register')}}")
+    return render_template("login.html", href="{{urlFor('student_register')}}", title="Student Login")
 
 @app.route("/teacher-login", methods=["GET", "POST"])
 def teacher_login():
-    return render_template("login.html", href="{{urlFor('teacher_register')}}")
+    return render_template("login.html", href="{{urlFor('teacher_register')}}", title="Teacher Login")
 
 @app.route("/canteen-login", methods=["GET", "POST"])
 def canteen_login():
-    return render_template("login.html")
+    return render_template("login.html", title="Canteen Login")
 
 @app.route("/student-register")
 def student_register():
-    return render_template("register.html", section=True, subject=False)
+    return render_template("register.html", section=True, subject=False, title="Student Register")
 
 @app.route("/teacher-register")
 def teacher_register():
-    return render_template("register.html", section=False, subject=True)
+    return render_template("register.html", section=False, subject=True, title="Teacher Register")
