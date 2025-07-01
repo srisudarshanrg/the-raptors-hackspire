@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/canteen_admin.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="modal fade" id="addItemMenuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Menu Item</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="add_item">
+                        <select class="form-select" aria-label="Default select example" name="category" required>
+                            <option selected>Select Category</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Snacks">Snacks</option>
+                            <option value="Lunch">Lunch</option>                        
+                            <option value="Dinner">Dinner</option>
+                        </select>
+                        <br>
+                        <input type="text" class="form-control" name="item_name" id="item_name" placeholder="Item Name" required>
+                        <br>
+                        <input type="number" name="price" id="price" class="form-control" placeholder="Price of Item">
+                        <br>
+                        <label for="availability" class="form-label">Available:</label>
+                        <input class="form-check-input" type="checkbox" name="availability" id="availability" checked>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Item</button>
+                    </div> 
+                </form>       
+            </div>
+        </div>
+    </div>
+
+    <div class="canteen-admin-page">
+        <h1>Menu</h1>
+
+        {% if menu %}
+            {% for i in menu %}
+                <form method="post">
+                    <input type="hidden" name="menu_id" value="{{i.id}}">
+                    <input type="text" name="category" id="category" value="{{i.category}}">
+                    <input type="text" name="item_name" id="item_name" value="{{i.item_name}}">
+                    <input type="number" name="price" id="price" value="{{i.price}}">
+                    <label for="availability">Availability:</label>
+                    <input type="checkbox" name="availability" id="availability" value="{{i.availability}}" {% if i.availability %}checked{% endif %}>
+                    <br><br>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+                <form method="post" style="margin-top: 1%;">
+                    <input type="hidden" name="menu_id_delete" value="{{i.id}}">
+                    <button type="submit" class="btn btn-danger">Remove Item</button>
+                </form>
+
+                <hr>
+            {% endfor %}
+        {% endif %}
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addItemMenuModal">
+            Add Item
+        </button>
+
+        <hr>
+
+        <h1>Orders</h1>
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <h3>Individual Orders:</h3>
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <td>Student Name</td>
+                            <td>Section</td>
+                            <td>Menu Item</td>
+                            <td>Delivered?</td>
+                        </tr>
+                        {% for order in orders %}
+                            <tr>
+                                <td>{{order.student_name}}</td>
+                                <td>{{order.section}}</td>
+                                <td>{{order.menu_item}}</td>
+                                <td>
+                                    <form method="POST">
+                                        <input type="hidden" name="order_id_delete" value="{{order.id}}">
+                                        <button class="btn btn-success">Confirm Delivered</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </thead>
+                </table>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <h3>Section-wise Orders:</h3>
+
+                <table class="table ">
+
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
