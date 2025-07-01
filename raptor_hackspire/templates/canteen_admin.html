@@ -99,8 +99,23 @@
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <h3>Section-wise Orders:</h3>
 
-                <table class="table ">
-
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <td>Section</td>
+                            <td>Item</td>
+                            <td>Count</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in orders_by_section %}
+                            <tr>
+                                <td>{{i.section}}</td>
+                                <td>{{i.menu_item}}</td>
+                                <td>{{i.count}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </div>

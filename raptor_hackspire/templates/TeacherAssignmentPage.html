@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Assignments</title>
+{% extends "base.html" %}
+
+{% block css %}
     <link rel="stylesheet" type="text/css" href={{url_for('static', filename='css/main.css')}}>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
     <div style="background-color: #b30511; ">
         <br /><br /><br />
     </div>
     {% if role == "teacher" %}
     <h1 align="center">Scheduled Assignments:</h1>
-    <a align="center" href = "EditableAssignmentPage.html">Edit Assignments</a>
-            <table>
+    <a align="center" href = "{{url_for('edit-assignments')}}">Edit Assignments</a>
+        <table class="table table-dark table-striped">
             <tr>
                 <th>Assignment</th>
                 <th>Subject</th>
@@ -38,5 +38,4 @@
     {% else %}
     <h5>Only teachers can access this page!</h5>
     {% endif %}
-</body>
-</html>
+{% endblock %}
