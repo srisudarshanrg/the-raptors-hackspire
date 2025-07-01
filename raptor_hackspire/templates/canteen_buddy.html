@@ -5,7 +5,53 @@
 {% endblock %}
 
 {% block content %}
-    <div class="canteen-buddy-page bg-dark">
-        <h1 class="text-light">Canteen Buddy</h1>
+    <div class="canteen-buddy-page bg-dark text-light">
+        <h1>Canteen Buddy</h1>
+        <br>
+        <h3>Menu</h3>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <td>Category</td>
+                    <td>Name</td>
+                    <td>Price</td>
+                    <td>Availablility</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in menu_items %}
+                    <tr>
+                        <td>{{m.category}}</td>
+                        <td>{{m.item_name}}</td>
+                        <td>{{m.price}}</td>
+                        <td>
+                            {% if m.availability == true %}
+                                <i class="fa-solid fa-circle-check"></i>
+                            {% else %}                                
+                                <i class="fa-solid fa-circle-xmark"></i>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+        <br>
+
+        <h3>Place Order</h3>
+        <i>If an item in the menu is not shown in the below dropdown, it means it is not available
+            Please check availability column of above table to see if item is available or not
+        </i>
+        <form method="post">
+            <select class="form-select" aria-label="Default select example" name="menu_order_item" required>
+                <option selected>Select Category</option>
+                {% for m in menu_order_items %}
+                    <option value="{{m.id}}">{{m.name}}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <button type="submit" class="btn btn-primary">Order Item</button>
+        </form>
     </div>
 {% endblock %}

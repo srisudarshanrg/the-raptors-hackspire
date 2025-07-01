@@ -42,7 +42,31 @@ def assignments():
 @login_required
 @roles_required("student")
 def canteen_buddy():
-    return render_template("canteen_buddy.html", role=current_user.get_role())
+    menu_items = Menu.query.all()
+
+    menu_names = []
+    for m in menu_items:
+        if m.availability == True:
+            menu_item_dict = {
+                "id": m.id,
+                "name": m.item_name,
+            }
+            menu_names.append(menu_item_dict)
+
+    if request.method == "POST":
+        if "menu_order_item" in request.form:
+            menu_id = int(request.form.get("menu_order_item"))
+            new_order = Orders(
+                student_id=current_user.id,
+                menu_id=menu_id,
+                section=current_user.section,
+            )
+            db.session.add(new_order)
+            db.session.commit()
+            flash("Your order has been submitted", "success")
+            return redirect(url_for("canteen_buddy"))
+            
+    return render_template("canteen_buddy.html", role=current_user.get_role(), menu_items=menu_items, menu_order_items=menu_names)
 
 # canteen admin view of canteen buddy
 @app.route("/canteen-admin", methods=["GET", "POST"])
@@ -50,6 +74,19 @@ def canteen_buddy():
 @roles_required("canteen")
 def canteen_admin():
     menu = Menu.query.all()
+    orders = Orders.query.all()
+
+    order_items = []
+    for order in orders:
+        student_details = Student.query.filter_by(id=order.student_id).first()
+        menu_details = Menu.query.filter_by(id=order.menu_id).first()
+        order_element = {
+            "id": order.id,
+            "student_name": student_details.username,
+            "section": order.section,
+            "menu_item": menu_details.item_name,
+        }
+        order_items.append(order_element)
 
     if request.method == "POST":
         if "menu_id" in request.form:
@@ -64,8 +101,36 @@ def canteen_admin():
             m.price = price
             m.availability = bool(availability)
             db.session.commit()
+        if "add_item" in request.form:
+            category = request.form.get("category")
+            item_name = request.form.get("item_name")
+            price = request.form.get("price")
+            availability = bool(request.form.get("availability"))
 
-    return render_template("canteen_admin.html", role=current_user.get_role(), menu=menu)
+            new_menu_item = Menu(
+                category=category,
+                item_name=item_name,
+                price=price,
+                availability=availability,
+            )
+
+            db.session.add(new_menu_item)
+            db.session.commit()
+            return redirect(url_for("canteen_admin"))
+        
+        if "menu_id_delete" in request.form:
+            item = Menu.query.filter_by(id=int(request.form.get("menu_id_delete"))).first()
+            db.session.delete(item)
+            db.session.commit()
+            return redirect(url_for("canteen_admin"))
+        
+        if "order_id_delete" in request.form:
+            order = Orders.query.filter_by(id=int(request.form.get("order_id_delete"))).first()
+            db.session.delete(order)
+            db.session.commit()
+            return redirect(url_for("canteen_admin"))
+
+    return render_template("canteen_admin.html", role=current_user.get_role(), menu=menu, orders=order_items)
 
 @app.route("/student-login", methods=["GET", "POST"])
 def student_login():
