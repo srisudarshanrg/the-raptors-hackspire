@@ -1,6 +1,7 @@
 from . import app, session, db
 from flask_login import login_required, login_user, current_user, logout_user
 from flask import render_template, redirect, url_for, request, flash
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, date as dt
 from .functions import roles_required, hash_password, check_hash_password, CreateStudent, LoginStudent, CreateTeacher, LoginTeacher, LoginCanteen
 from .user_validations import password_equal_confirm_password, unique_username_student, unique_username_teacher
@@ -24,19 +25,22 @@ def assignments():
         assignment = [Assignment name, Subject, Assignment link(if none, put an empty string), Deadline date]
         all the elements in the above array must be strings
     """
-    assignments = [["Math HW", "Math", "smthin.html", "1/6/2025"], ["English HW", "English", "", "30/6/2025"], ["Chemistry HW", "Chemistry", "another.html", "3/7/2025"]]
+#    assignments = [["Math HW", "Math", "smthin.html", "2025-06-01"], ["English HW", "English", "", "2025-07-01"], ["Chemistry HW", "Chemistry", "another.html", "2025-07-03"]]
+    assignment_obj = Assignments.query.all()
+    assignments = []
+
+    for a in assignment_obj:
+        assignments.append([a.name, a.subject, a.links, a.deadline])
 
     current_date = datetime.now().date()
-    for num in range(len(assignments)):
-        given_date = assignments[num][3].split("/")
-        date = dt(day = int(given_date[0]), month = int(given_date[1]), year = int(given_date[2]))
-
-        if date < current_date:
-            assignments[num].append("red")
-        elif date == current_date:
-            assignments[num].append("yellow")
+    for i in range(len(assignments)):
+        if assignments[i][3] < current_date:
+            assignments[i].append("red")
+        elif assignments[i][3] == current_date:
+            assignments[i].append("yellow")
         else:
-            assignments[num].append("green")
+            assignments[i].append("green")
+        
     if current_user.get_role() == "student":
         return render_template('StudentAssignmentPage.html', assignments = assignments, role=current_user.get_role())
     elif current_user.get_role() == "teacher":
@@ -55,21 +59,22 @@ def assignments_edit():
         assignment = [Assignment name, Subject, Assignment link(if none, put an empty string), Deadline date]
         all the elements in the above array must be strings
     """
-    assignments = [["Math HW", "Math", "smthin.html", "1/6/2025"], ["English HW", "English", "", "30/6/2025"], ["Chemistry HW", "Chemistry", "another.html", "3/7/2025"]]
+    assignment_obj = Assignments.query.all()
+    assignments = []
+
+    for a in assignment_obj:
+        assignments.append([a.name, a.subject, a.links, a.deadline])
 
     current_date = datetime.now().date()
-    for num in range(len(assignments)):
-        given_date = assignments[num][3].split("/")
-        date = dt(day = int(given_date[0]), month = int(given_date[1]), year = int(given_date[2]))
-
-        if date < current_date:
-            assignments[num].append("red")
-        elif date == current_date:
-            assignments[num].append("yellow")
+    for i in range(len(assignments)):
+        if assignments[i][3] < current_date:
+            assignments[i].append("red")
+        elif assignments[i][3] == current_date:
+            assignments[i].append("yellow")
         else:
-            assignments[num].append("red")
+            assignments[i].append("green")
 
-    return render_template('StudentAssignmentPage.html', empty = "", assignments = assignments)
+    return render_template('EditableAssignmentPage.html', empty = "", assignments = assignments, role=current_user.get_role())
 
 # student view of canteenMore actions
 @app.route("/canteen-buddy", methods=["GET", "POST"])

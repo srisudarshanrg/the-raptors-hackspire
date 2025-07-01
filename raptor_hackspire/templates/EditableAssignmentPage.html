@@ -14,6 +14,7 @@
     </div>
     {% if role == "teacher" %}
     <h1 align="center">Scheduled Assignments:</h1>
+    <a style="margin-left:auto; margin-right:auto;" href = "/Assignments">Back to Assignments</a><p><bold>Click and drag pointer on the links(select them) to edit</bold></p>
             <table>
             <tr>
                 <th>Assignment</th>
@@ -24,17 +25,19 @@
             {% for assignment in assignments %}
             <tr>
 <!--assignments = assignment = [[Assignment name, Subject, Assignment link(if none, put an empty string), Deadline date]]-->
-                <td>{{assignment[0]}}</td>
-                <td>{{assignment[1]}}</td>
-                <td>
-                    {% if assignment[2] == "" %}
-                    -
-                    {% else %}
-                    <a href="{{assignment[2]}}">Link</a>
-                    {% endif %}
+                <form method="POST">
+                    <td><input value = {{assignment[0]}} name="assignment_name"></td>
+                    <td><input value = {{assignment[1]}} name="assignment_subject"></td>
+                    <td>
+                        {% if assignment[2] == "" %}
+                        <input value="-" name="assignment_link">
+                        {% else %}
+                        <a href="{{assignment[2]}}"><input value = {{assignment[2]}} name="assignment_link"></a>
+                        {% endif %}
 
-                </td>
-                <td class="{{assignment[4]}}">{{assignment[3]}}</td>
+                    </td>
+                    <td><input type="date" value = {{assignment[3]}} style="color: {{assignment[4]}};" name="assignment_deadline"></td>
+                </form>
             </tr>
             {% endfor %}
         </table>
