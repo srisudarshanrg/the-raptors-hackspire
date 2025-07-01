@@ -16,7 +16,7 @@
 <body class="bg-dark text-light">
     <nav class="navbar navbar-dark navbar-expand-lg bg-dark" style="border-bottom: 2px solid #fff; margin-bottom: 2%;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Educationsaurus</a>
+            <a class="navbar-brand" href="#">Educationsaurus    </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -26,11 +26,11 @@
                         <a class="nav-link" aria-current="page" href="{{url_for('home')}}">Home</a>
                     {% endif %}
                     {% if role == "student" %}
-                        <a class="nav-link" href="{{url_for('assignments')}}">Assignment Tracker</a>
+                        <a class="nav-link" href="{{url_for('assignments_student')}}">Assignment Tracker</a>
                         <a class="nav-link" href="{{url_for('canteen_buddy')}}">Canteen Buddy</a>
                         <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
                     {% elif role == "teacher" %}
-                        <a class="nav-link" href="{{url_for('assignments')}}">View Assignments</a>
+                        <a class="nav-link" href="{{url_for('assignments_teacher')}}">View Assignments</a>
                         <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
                     {% elif role == "canteen" %}
                         <a class="nav-link" href="{{url_for('canteen_admin')}}">Canteen Admin</a>
