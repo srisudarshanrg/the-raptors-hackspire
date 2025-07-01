@@ -6,10 +6,13 @@ from .functions import roles_required, hash_password, check_hash_password, Creat
 from .user_validations import password_equal_confirm_password, unique_username_student, unique_username_teacher
 from .models import Student, Teacher, Canteen, Menu, Orders, Assignments
 
-@app.route("/")
+@app.route("/home")
 @login_required
 def home():
-    return render_template("home.html", role=current_user.get_role())
+    loggedIn = False
+    if current_user.is_authenticated:
+        loggedIn = True
+    return render_template("home.html", role=current_user.get_role(), loggedIn=loggedIn, user=current_user)
 
 @app.route('/Assignments')
 @login_required
@@ -290,7 +293,11 @@ def teacher_register():
 
     return render_template("register.html", section=False, subject=True, title="Teacher Register")
 
+@app.route("/")
+def login_branch():
+    return render_template("login_branch.html")
+
 @app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for("student_login"))
+    return redirect(url_for("login_branch"))

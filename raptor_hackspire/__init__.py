@@ -12,7 +12,7 @@ app.config["SECRET_KEY"] = "b17540d9a1a7e54eedf84gf6"
 db = SQLAlchemy(app)
 
 login_manager = LoginManager(app)
-login_manager.login_view = "student_login"    
+login_manager.login_view = "login_branch"    
 login_manager.login_message = "Login is required to access this page or feature"
 login_manager.login_message_category = "info"
 

@@ -9,5 +9,54 @@
 {% endblock %}
 
 {% block content %}
-    
+    {% if role == "student" %}
+        <div class="student-home bg-dark text-light" style="padding: 1%;">
+            <h1>Welcome, {{user.username}}</h1>
+            <p>Below are the functionalities</p>
+            <hr>
+            <div class="row" style="width: 100%;">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Canteen Buddy</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Preorder any canteen food</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{url_for('canteen_buddy')}}" class="btn btn-primary">Visit</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Assigment Tracker</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Track your assignments</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{url_for('assignments')}}" class="btn btn-primary">Visit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% elif role == "canteen" %}
+        <div class="bg-dark text-light" style="height: 100vh; padding: 1%;">
+            <h1>Welcome, Canteen Staff</h1>
+            <hr>
+            <a href="{{url_for('canteen_admin')}}" class="btn btn-primary">Check preorders here</a>
+        </div>
+
+    {% elif role == "teacher" %}
+        <div class="bg-dark text-light" style="height: 100vh; padding: 1%;">
+            <h1>Welcome, {{current_user.username}}</h1>
+            <hr>
+            <a href="{{url_for('assignments')}}" class="btn btn-primary">View and Send Assignments here</a>
+        </div>
+    {% endif %}
 {% endblock %}

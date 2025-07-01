@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row" style="margin-top: 5%; width: 100%;">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">Student Login</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Login for Students</h6>
+                    <a href="{{url_for('student_login')}}" class="card-link">Login</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">Teacher Login</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Login for Teachers</h6>
+                    <a href="{{url_for('teacher_login')}}" class="card-link">Login</a>
+                </div>
+            </div>            
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">Canteen Login</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Login for Canteen Staff</h6>
+                    <a href="{{url_for('canteen_login')}}" class="card-link">Login</a>
+                </div>
+            </div>   
+        </div>
+    </div>
+{% endblock %}

@@ -5,12 +5,13 @@
 {% endblock %}
 
 {% block content %}
-    <div style="background-color: #b30511; ">
-        <br /><br /><br />
-    </div>
     {% if role == "teacher" %}
-    <h1 align="center">Scheduled Assignments:</h1>
-    <a align="center" href = "{{url_for('edit-assignments')}}">Edit Assignments</a>
+    <div style="padding: 1%;">
+        <h1 align="center">Scheduled Assignments:</h1>
+        <br>
+        <a align="center" href = "{{url_for('assignments_edit')}}" class="btn btn-primary">Edit Assignments</a>
+        <br>
+        <br>
         <table class="table table-dark table-striped">
             <tr>
                 <th>Assignment</th>
@@ -20,7 +21,7 @@
             </tr>
             {% for assignment in assignments %}
             <tr>
-<!--assignments = assignment = [[Assignment name, Subject, Assignment link(if none, put an empty string), Deadline date]]-->
+    <!--assignments = assignment = [[Assignment name, Subject, Assignment link(if none, put an empty string), Deadline date]]-->
                 <td>{{assignment[0]}}</td>
                 <td>{{assignment[1]}}</td>
                 <td>
@@ -35,7 +36,8 @@
             </tr>
             {% endfor %}
         </table>
-    {% else %}
-    <h5>Only teachers can access this page!</h5>
-    {% endif %}
+        {% else %}
+        <h5>Only teachers can access this page!</h5>
+        {% endif %}
+    </div>
 {% endblock %}
