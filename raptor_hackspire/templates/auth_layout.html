@@ -21,7 +21,7 @@
         <!-- favicon -->
         <link rel="icon" href="{{url_for('static', filename='img/favicon.png')}}" type="image/x-icon">
     </head>
-    <body>
+    <body class="bg-dark text-light">
         {% with msgs = get_flashed_messages(with_categories=True) %}
             {% for category, msg in msgs %}
                 <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
