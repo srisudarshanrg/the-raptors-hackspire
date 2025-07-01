@@ -10,10 +10,10 @@ from .user_validations import password_equal_confirm_password, unique_username
 def home():
     return render_template("home.html", role=current_user.get_role)
 
-@app.route('/<role>/<username>/Assignments')
+@app.route('/Assignments')
 @login_required
 @roles_required("student", "teacher")
-def assignments(role, username):
+def assignments():
     """
     format for assignment array(passed to "render_template"):
     array = [assignment, assignment, assignment], where:
@@ -28,15 +28,45 @@ def assignments(role, username):
         date = dt(day = int(given_date[0]), month = int(given_date[1]), year = int(given_date[2]))
 
         if date < current_date:
-            assignments[num].append("green")
+            assignments[num].append("red")
         elif date == current_date:
             assignments[num].append("yellow")
         else:
-            assignments[num].append("red")
-    if role == "Student":
+            assignments[num].append("green")
+    if current_user.get_role() == "student":
         return render_template('StudentAssignmentPage.html', assignments = assignments)
-    elif role == "Teacher":
+    elif current_user.get_role() == "teacher":
         return render_template('TeacherAssignmentPage.html', assignments = assignments)
+    elif current_user.get_role() == "canteen":
+        return "Canteen owner's account can't have assignments!"
+
+
+@app.route('/Assignments/Edit', methods=["GET", "POST"])
+@login_required
+@roles_required("teacher")
+def assignments_edit():
+    """
+    format for assignment array(passed to "render_template"):
+    array = [assignment, assignment, assignment], where:
+        assignment = [Assignment name, Subject, Assignment link(if none, put an empty string), Deadline date]
+        all the elements in the above array must be strings
+    """
+    assignments = [["Math HW", "Math", "smthin.html", "1/6/2025"], ["English HW", "English", "", "30/6/2025"], ["Chemistry HW", "Chemistry", "another.html", "3/7/2025"]]
+
+    current_date = datetime.now().date()
+    for num in range(len(assignments)):
+        given_date = assignments[num][3].split("/")
+        date = dt(day = int(given_date[0]), month = int(given_date[1]), year = int(given_date[2]))
+
+        if date < current_date:
+            assignments[num].append("red")
+        elif date == current_date:
+            assignments[num].append("yellow")
+        else:
+            assignments[num].append("green")
+        
+        return render_template("EditableAssignmentPage.html", assignments = assignments)
+
 
 @app.route("/student-login", methods=["GET", "POST"])
 def student_login():
