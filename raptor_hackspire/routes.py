@@ -228,7 +228,7 @@ def student_register():
                 if i != True:
                     flash(f"{i}", category="danger")           
 
-    return render_template("register.html", section=True, subject=False, title="Student Register")
+    return render_template("register.html", section=True, subject=False, title="Student Register ")
 
 @app.route("/teacher-register", methods=["GET", "POST"])
 def teacher_register():
