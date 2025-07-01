@@ -6,6 +6,7 @@ from datetime import datetime, date as dt
 from .functions import roles_required, hash_password, check_hash_password, CreateStudent, LoginStudent, CreateTeacher, LoginTeacher, LoginCanteen
 from .user_validations import password_equal_confirm_password, unique_username_student, unique_username_teacher
 from .models import Student, Teacher, Canteen, Menu, Orders, Assignments
+from datetime import datetime
 
 @app.route("/home")
 @login_required
@@ -15,20 +16,13 @@ def home():
         loggedIn = True
     return render_template("home.html", role=current_user.get_role(), loggedIn=loggedIn, user=current_user)
 
-@app.route('/Assignments')
+@app.route("/assignment-student")
 @login_required
-@roles_required("student", "teacher")
-def assignments():
-    """
-    format for assignment array(passed to "render_template"):
-    array = [assignment, assignment, assignment], where:
-        assignment = [Assignment name, Subject, Assignment link(if none, put an empty string), Deadline date]
-        all the elements in the above array must be strings
-    """
-#    assignments = [["Math HW", "Math", "smthin.html", "2025-06-01"], ["English HW", "English", "", "2025-07-01"], ["Chemistry HW", "Chemistry", "another.html", "2025-07-03"]]
-    assignment_obj = Assignments.query.all()
+@roles_required("student")
+def assignments_student():
     assignments = []
 
+    assignment_obj = Assignments.query.all()
     for a in assignment_obj:
         assignments.append([a.name, a.subject, a.links, a.deadline])
 
@@ -40,30 +34,79 @@ def assignments():
             assignments[i].append("yellow")
         else:
             assignments[i].append("green")
-        
-    if current_user.get_role() == "student":
-        return render_template('StudentAssignmentPage.html', assignments = assignments, role=current_user.get_role())
-    elif current_user.get_role() == "teacher":
-        return render_template('TeacherAssignmentPage.html', assignments = assignments, role=current_user.get_role())
-    elif current_user.get_role() == "canteen":
-        return "Canteen owner's account can't have assignments!"
+    
+    return render_template('StudentAssignmentPage.html', assignments = assignments, role=current_user.get_role())
 
+@app.route('/assignment-teacher', methods=["GET", "POST"])
+@login_required
+@roles_required("teacher")
+def assignments_teacher():
+    assignments = []
 
-@app.route('/Assignments/Edit', methods=["GET", "POST"])
+    if request.method == "POST":
+        if "create_assignment" in request.form:
+            format_date = "%Y-%m-%d"
+
+            name = request.form.get("name")
+            deadline = datetime.strptime(request.form.get("deadline"), format_date)
+            links = request.form.get("links")
+
+            new_assignment = Assignments(
+                name=name,
+                subject=current_user.subject,
+                deadline=deadline,
+                links=links,
+                teacher_id=current_user.id,
+            )
+
+            db.session.add(new_assignment)
+            db.session.commit()
+
+            return redirect(url_for('assignments_teacher'))
+
+    assignment_obj = Assignments.query.filter_by(teacher_id=current_user.id).all()
+    for a in assignment_obj:
+        assignments.append([a.name, a.subject, a.links, a.deadline])
+
+    current_date = datetime.now().date()
+    for i in range(len(assignments)):
+        if assignments[i][3] < current_date:
+            assignments[i].append("red")
+        elif assignments[i][3] == current_date:
+            assignments[i].append("yellow")
+        else:
+            assignments[i].append("green")
+    
+    return render_template('TeacherAssignmentPage.html', assignments = assignments, role=current_user.get_role())
+
+@app.route('/assignments/edit', methods=["GET", "POST"])
 @login_required
 @roles_required("teacher")
 def assignments_edit():
-    """
-    format for assignment array(passed to "render_template"):
-    array = [assignment, assignment, assignment], where:
-        assignment = [Assignment name, Subject, Assignment link(if none, put an empty string), Deadline date]
-        all the elements in the above array must be strings
-    """
-    assignment_obj = Assignments.query.all()
+    assignment_obj = Assignments.query.filter_by(teacher_id=current_user.id).all()
     assignments = []
 
+    if request.method == "POST":
+        if "edit_assignment_id" in request.form:            
+            format_date = "%Y-%m-%d"
+            id = request.form.get("edit_assignment_id")
+            name = request.form.get("assignment_name")
+            assignment_link = request.form.get("assignment_link")
+            deadline = datetime.strptime(request.form.get("assignment_deadline"), format_date)
+
+            updated = Assignments.query.filter_by(id=id).first()
+            updated.name = name
+            updated.assignment_link = assignment_link
+            updated.deadline = deadline
+
+            db.session.commit()
+
+            return redirect(url_for("assignments_edit"))
+            
+
     for a in assignment_obj:
-        assignments.append([a.name, a.subject, a.links, a.deadline])
+        print(a.name)
+        assignments.append([a.name, a.subject, a.links, a.deadline, a.id])
 
     current_date = datetime.now().date()
     for i in range(len(assignments)):
@@ -74,7 +117,7 @@ def assignments_edit():
         else:
             assignments[i].append("green")
 
-    return render_template('EditableAssignmentPage.html', empty = "", assignments = assignments, role=current_user.get_role())
+    return render_template('EditableAssignmentPage.html', empty = "", assignments=assignments, role=current_user.get_role())
 
 # student view of canteenMore actions
 @app.route("/canteen-buddy", methods=["GET", "POST"])
@@ -288,9 +331,9 @@ def teacher_register():
             message, category = CreateTeacher(username, subject, hashed)
             flash(f"{message}", category)
             if category == "success":
-                redirect(url_for("home"))
+                return redirect(url_for("home"))
             else:
-                redirect(url_for("teacher_register"))
+                return redirect(url_for("teacher_register"))
         else:
             for i in results:
                 if i != True:
