@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post">
+    <form method="post" class="text-center" style="margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;">
         <h1>{{title}}</h1>
 
         <input type="hidden" name="registerForm">
@@ -14,11 +14,14 @@
             <input name="username" type="text" class="form-control" id="autoSizingInputGroup" placeholder="Username">            
         </div>
 
+        <br>
+
         {% if section %}         
             <div class="input-group">
                 <div class="input-group-text"><i class="fa-solid fa-lock"></i></div>
                 <input name="section" type="text" class="form-control" id="autoSizingInputGroup" placeholder="Section">
             </div>
+            <br>
         {% endif %}
 
         {% if subject %}         
@@ -26,6 +29,7 @@
                 <div class="input-group-text"><i class="fa-solid fa-lock"></i></div>
                 <input name="subject" type="text" class="form-control" id="autoSizingInputGroup" placeholder="Subject">
             </div>
+            <br>
         {% endif %}
 
         <div class="input-group">
@@ -33,10 +37,14 @@
             <input name="password" type="password" class="form-control" id="autoSizingInputGroup" placeholder="Password">
         </div>
 
+        <br>
+
         <div class="input-group">
             <div class="input-group-text"><i class="fa-solid fa-lock"></i></div>
             <input name="confirm_password" type="password" class="form-control" id="autoSizingInputGroup" placeholder="Confirm Password">
         </div>
+
+        <br>
 
         <button type="submit" class="btn btn-primary" style="width: 100%;">Enter</button>
     </form>
