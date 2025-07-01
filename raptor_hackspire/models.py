@@ -69,5 +69,5 @@ class Assignments(db.Model):
     name = db.Column(db.String(), nullable=False)
     subject = db.Column(db.String(), nullable=False)
     deadline = db.Column(db.DateTime(), nullable=False)
-    links = db.Column(db.String(), nullable=True)
+    links = db.Column(db.String(), nullable=True, default="")
     teacher_id = db.Column(db.Integer(), db.ForeignKey("teacher.id"))
