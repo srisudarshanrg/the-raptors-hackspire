@@ -69,28 +69,40 @@
         <hr>
 
         <h1>Orders</h1>
-        <table class="table table-dark table-striped">
-            <thead>
-                <tr>
-                    <td>Student Name</td>
-                    <td>Section</td>
-                    <td>Menu Item</td>
-                    <td>Delivered?</td>
-                </tr>
-                {% for order in orders %}
-                    <tr>
-                        <td>{{order.student_name}}</td>
-                        <td>{{order.section}}</td>
-                        <td>{{order.menu_item}}</td>
-                        <td>
-                            <form method="POST">
-                                <input type="hidden" name="order_id_delete" value="{{order.id}}">
-                                <button class="btn btn-success">Confirm Delivered</button>
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </thead>
-        </table>
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <h3>Individual Orders:</h3>
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <td>Student Name</td>
+                            <td>Section</td>
+                            <td>Menu Item</td>
+                            <td>Delivered?</td>
+                        </tr>
+                        {% for order in orders %}
+                            <tr>
+                                <td>{{order.student_name}}</td>
+                                <td>{{order.section}}</td>
+                                <td>{{order.menu_item}}</td>
+                                <td>
+                                    <form method="POST">
+                                        <input type="hidden" name="order_id_delete" value="{{order.id}}">
+                                        <button class="btn btn-success">Confirm Delivered</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </thead>
+                </table>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <h3>Section-wise Orders:</h3>
+
+                <table class="table ">
+
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}

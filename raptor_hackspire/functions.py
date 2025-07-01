@@ -70,7 +70,7 @@ def LoginStudent(username, password):
     else:
         return False
     
-def LoginTeacher(username, password, subject):
+def LoginTeacher(username, password):
     teacher = Teacher.query.filter_by(username=username).first()
     if teacher:
         check = check_hash_password(teacher.password, password)

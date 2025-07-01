@@ -76,6 +76,24 @@ def canteen_admin():
     menu = Menu.query.all()
     orders = Orders.query.all()
 
+    sections = db.session.query(Orders.section).distinct().all()
+    
+    order_section_items = []
+    for section_tuple in sections:
+        section = section_tuple[0]
+        section_menu_orders = db.session.query(Orders.menu_id).filter_by(section=section).distinct().all()
+        for menu_id_tuple in section_menu_orders:
+            menu_id = menu_id_tuple[0]
+            menu_item = Menu.query.filter_by(id=menu_id).first()    # for getting menu item name        
+            menu_item_count = Orders.query.filter_by(section=section, menu_id=menu_id).all().count() # to get count of menu items in that section
+            dict_section_menu = {
+                "section": section,
+                "menu_item": menu_item.item_name,
+                "count": menu_item_count,
+            }
+            order_section_items.append(dict_section_menu)  
+
+
     order_items = []
     for order in orders:
         student_details = Student.query.filter_by(id=order.student_id).first()
@@ -130,7 +148,7 @@ def canteen_admin():
             db.session.commit()
             return redirect(url_for("canteen_admin"))
 
-    return render_template("canteen_admin.html", role=current_user.get_role(), menu=menu, orders=order_items)
+    return render_template("canteen_admin.html", role=current_user.get_role(), menu=menu, orders=order_items, orders_by_section=order_section_items)
 
 @app.route("/student-login", methods=["GET", "POST"])
 def student_login():
@@ -212,7 +230,7 @@ def student_register():
 
     return render_template("register.html", section=True, subject=False, title="Student Register")
 
-@app.route("/teacher-register")
+@app.route("/teacher-register", methods=["GET", "POST"])
 def teacher_register():
     if request.method == "POST":
         username = request.form.get("username")
